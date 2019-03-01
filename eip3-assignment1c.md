@@ -35,7 +35,6 @@ Activation functions are applied to the nodes in a neural network to decide whet
 ### ` 3x3 convolution
 
 3x3 convolution is the technique used in CNN where a 3x3 filter/kernel slides over an image (a 2D matrix of pixels (times 1 channel for greyscale , 3 channels for RGB, etc)) to extract features like edges initially and progressively more complex features like textures,patterns,parts of objects, objects as we go deeper into the neural network. 3x3 convolution is widely used as it helps you efficiently learn information with a lesser number of parameters. A convolution layer will have a number a channels with each channel being a container for features of similar nature e.g vertical edges
-$$
 \begin{bmatrix}1&1&0&0&1\\1&0&1&0&1\\0&1&1&0&0\\1&1&1&1&1\\1&1&0&0&1\end{bmatrix} * \begin{bmatrix}1&0&-1\\1&0&-1\\1&0&-1\end{bmatrix}  \\ \color{#C00} || \\ \color{#C00}
 
 \begin{bmatrix}\begin{pmatrix}
@@ -66,7 +65,6 @@ $$
 1*1+0*0+(0*-1)\\+\\1*1+1*0+(1*-1)\\+\\0*1+0*0+(1*-1)\end{pmatrix}
 
 \end{bmatrix} \\\color{#00F}|| \\ \color{#00F} \begin{bmatrix}0&2&0\\-1&1&1\\1&2&0\end{bmatrix} \\
-$$
 
 [^]:                                             3x3 filter applied to a 5x5 image matrix resulting in a 3x3 convolved output
 
