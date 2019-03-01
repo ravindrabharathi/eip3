@@ -35,36 +35,861 @@ Activation functions are applied to the nodes in a neural network to decide whet
 ### ` 3x3 convolution
 
 3x3 convolution is the technique used in CNN where a 3x3 filter/kernel slides over an image (a 2D matrix of pixels (times 1 channel for greyscale , 3 channels for RGB, etc)) to extract features like edges initially and progressively more complex features like textures,patterns,parts of objects, objects as we go deeper into the neural network. 3x3 convolution is widely used as it helps you efficiently learn information with a lesser number of parameters. A convolution layer will have a number a channels with each channel being a container for features of similar nature e.g vertical edges
-\begin{bmatrix}1&1&0&0&1\\1&0&1&0&1\\0&1&1&0&0\\1&1&1&1&1\\1&1&0&0&1\end{bmatrix} * \begin{bmatrix}1&0&-1\\1&0&-1\\1&0&-1\end{bmatrix}  \\ \color{#C00} || \\ \color{#C00}
-
-\begin{bmatrix}\begin{pmatrix}
-1*1+1*0+(0*-1)\\+\\1*1+0*0+(1*-1)\\+\\0*1+1*0+(1*-1)\end{pmatrix}
-
-\begin{pmatrix}
-1*1+0*0+(0*-1)\\+\\0*1+1*0+(0*-1)\\+\\1*1+1*0+(0*-1)\end{pmatrix}
-
-\begin{pmatrix}
-0*1+0*0+(1*-1)\\+\\1*1+0*0+(1*-1)\\+\\1*1+1*0+(0*-1)\end{pmatrix}
-
-\\\\\begin{pmatrix}
-1*1+0*0+(1*-1)\\+\\0*1+1*0+(1*-1)\\+\\1*1+1*0+(1*-1)\end{pmatrix}
-
-\begin{pmatrix}
-0*1+1*0+(0*-1)\\+\\1*1+1*0+(0*-1)\\+\\1*1+1*0+(1*-1)\end{pmatrix}
-
-\begin{pmatrix}
-1*1+0*0+(1*-1)\\+\\1*1+0*0+(0*-1)\\+\\1*1+1*0+(1*-1)\end{pmatrix}
-
-\\\\\begin{pmatrix}
-0*1+1*0+(1*-1)\\+\\1*1+1*0+(1*-1)\\+\\1*1+1*0+(0*-1)\end{pmatrix}
-
-\begin{pmatrix}
-1*1+1*0+(0*-1)\\+\\1*1+1*0+(1*-1)\\+\\1*1+0*0+(0*-1)\end{pmatrix}
-
-\begin{pmatrix}
-1*1+0*0+(0*-1)\\+\\1*1+1*0+(1*-1)\\+\\0*1+0*0+(1*-1)\end{pmatrix}
-
-\end{bmatrix} \\\color{#00F}|| \\ \color{#00F} \begin{bmatrix}0&2&0\\-1&1&1\\1&2&0\end{bmatrix} \\
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mrow>
+    <mo>[</mo>
+    <mtable rowspacing="4pt" columnspacing="1em">
+      <mtr>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+      </mtr>
+      <mtr>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+      </mtr>
+      <mtr>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+      </mtr>
+      <mtr>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+      </mtr>
+      <mtr>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+      </mtr>
+    </mtable>
+    <mo>]</mo>
+  </mrow>
+  <mo>&#x2217;<!-- ∗ --></mo>
+  <mrow>
+    <mo>[</mo>
+    <mtable rowspacing="4pt" columnspacing="1em">
+      <mtr>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mo>&#x2212;<!-- − --></mo>
+          <mn>1</mn>
+        </mtd>
+      </mtr>
+      <mtr>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mo>&#x2212;<!-- − --></mo>
+          <mn>1</mn>
+        </mtd>
+      </mtr>
+      <mtr>
+        <mtd>
+          <mn>1</mn>
+        </mtd>
+        <mtd>
+          <mn>0</mn>
+        </mtd>
+        <mtd>
+          <mo>&#x2212;<!-- − --></mo>
+          <mn>1</mn>
+        </mtd>
+      </mtr>
+    </mtable>
+    <mo>]</mo>
+  </mrow>
+  <mspace linebreak="newline" />
+  <mstyle mathcolor="#C00">
+    <mrow class="MJX-TeXAtom-ORD">
+      <mo stretchy="false">|</mo>
+    </mrow>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mo stretchy="false">|</mo>
+    </mrow>
+  </mstyle>
+  <mspace linebreak="newline" />
+  <mstyle mathcolor="#C00">
+    <mrow>
+      <mo>[</mo>
+      <mtable rowspacing="4pt" columnspacing="1em">
+        <mtr>
+          <mtd>
+            <mrow>
+              <mo>(</mo>
+              <mtable rowspacing="4pt" columnspacing="1em">
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+              <mo>)</mo>
+            </mrow>
+            <mrow>
+              <mo>(</mo>
+              <mtable rowspacing="4pt" columnspacing="1em">
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+              <mo>)</mo>
+            </mrow>
+            <mrow>
+              <mo>(</mo>
+              <mtable rowspacing="4pt" columnspacing="1em">
+                <mtr>
+                  <mtd>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+              <mo>)</mo>
+            </mrow>
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd />
+        </mtr>
+        <mtr>
+          <mtd>
+            <mrow>
+              <mo>(</mo>
+              <mtable rowspacing="4pt" columnspacing="1em">
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+              <mo>)</mo>
+            </mrow>
+            <mrow>
+              <mo>(</mo>
+              <mtable rowspacing="4pt" columnspacing="1em">
+                <mtr>
+                  <mtd>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+              <mo>)</mo>
+            </mrow>
+            <mrow>
+              <mo>(</mo>
+              <mtable rowspacing="4pt" columnspacing="1em">
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+              <mo>)</mo>
+            </mrow>
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd />
+        </mtr>
+        <mtr>
+          <mtd>
+            <mrow>
+              <mo>(</mo>
+              <mtable rowspacing="4pt" columnspacing="1em">
+                <mtr>
+                  <mtd>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+              <mo>)</mo>
+            </mrow>
+            <mrow>
+              <mo>(</mo>
+              <mtable rowspacing="4pt" columnspacing="1em">
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+              <mo>)</mo>
+            </mrow>
+            <mrow>
+              <mo>(</mo>
+              <mtable rowspacing="4pt" columnspacing="1em">
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mo>+</mo>
+                  </mtd>
+                </mtr>
+                <mtr>
+                  <mtd>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>1</mn>
+                    <mo>+</mo>
+                    <mn>0</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mn>0</mn>
+                    <mo>+</mo>
+                    <mo stretchy="false">(</mo>
+                    <mn>1</mn>
+                    <mo>&#x2217;<!-- ∗ --></mo>
+                    <mo>&#x2212;<!-- − --></mo>
+                    <mn>1</mn>
+                    <mo stretchy="false">)</mo>
+                  </mtd>
+                </mtr>
+              </mtable>
+              <mo>)</mo>
+            </mrow>
+          </mtd>
+        </mtr>
+      </mtable>
+      <mo>]</mo>
+    </mrow>
+  </mstyle>
+  <mspace linebreak="newline" />
+  <mstyle mathcolor="#00F">
+    <mrow class="MJX-TeXAtom-ORD">
+      <mo stretchy="false">|</mo>
+    </mrow>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mo stretchy="false">|</mo>
+    </mrow>
+  </mstyle>
+  <mspace linebreak="newline" />
+  <mstyle mathcolor="#00F">
+    <mrow>
+      <mo>[</mo>
+      <mtable rowspacing="4pt" columnspacing="1em">
+        <mtr>
+          <mtd>
+            <mn>0</mn>
+          </mtd>
+          <mtd>
+            <mn>2</mn>
+          </mtd>
+          <mtd>
+            <mn>0</mn>
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd>
+            <mo>&#x2212;<!-- − --></mo>
+            <mn>1</mn>
+          </mtd>
+          <mtd>
+            <mn>1</mn>
+          </mtd>
+          <mtd>
+            <mn>1</mn>
+          </mtd>
+        </mtr>
+        <mtr>
+          <mtd>
+            <mn>1</mn>
+          </mtd>
+          <mtd>
+            <mn>2</mn>
+          </mtd>
+          <mtd>
+            <mn>0</mn>
+          </mtd>
+        </mtr>
+      </mtable>
+      <mo>]</mo>
+    </mrow>
+  </mstyle>
+  <mspace linebreak="newline" />
+</math>
 
 [^]:                                             3x3 filter applied to a 5x5 image matrix resulting in a 3x3 convolved output
 
